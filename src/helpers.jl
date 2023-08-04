@@ -117,7 +117,6 @@ end
 function replinit(repl)
   @eval Main begin
     using Revise
-    using BenchmarkTools
     using Infiltrator
     # import TerminalUserInterfaces as TUI
   end
