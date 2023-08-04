@@ -10,8 +10,8 @@ using MacroTools
 include("macros.jl")
 include("helpers.jl")
 include("pkg.jl")
-include("clap.jl")
 include("envs.jl")
+include("jl.jl")
 
 function __init__()
   atreplinit() do repl

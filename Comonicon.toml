@@ -1,0 +1,4 @@
+name = "jl"
+
+[install]
+completion = true
