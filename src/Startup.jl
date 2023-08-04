@@ -4,10 +4,13 @@ using Pkg
 using PrecompileTools
 using Dates
 using PkgTemplates
+using ArgParse
+using MacroTools
 
 include("macros.jl")
 include("helpers.jl")
 include("pkg.jl")
+include("clap.jl")
 
 using .PkgStack
 
