@@ -3,8 +3,10 @@ module Clap
 struct Args
   items::Vector{String}
   cursor::Ref{Int}
-  Args() = new(deepcopy(ARGS), length(ARGS))
+  Args(args) = new(deepcopy(args), length(args))
 end
+
+Args() = Args(ARGS)
 
 function next!(self::Args)
   arg = ParsedArg(self.items[self.cursor[]])
@@ -26,7 +28,7 @@ function remaining(self::Args)
   r
 end
 
-insert!(self::Args, index::Integer, item) = insert!(self.items, index, item)
+insert!(self::Args, item) = insert!(self.items, self.cursor[], item)
 
 seek(self::Args, pos::Integer) = self.cursor[] = pos
 
@@ -91,6 +93,12 @@ function next_flag!(self::ShortFlags)
   flag, remaining = split(self.inner, ""; limit = 2)
   self.inner = remaining
   isempty(flag) ? nothing : flag[1]
+end
+
+using InlineTest
+
+@testset "insert" begin
+  raw = Args(["bin", "a", "b", "c"])
 end
 
 end
