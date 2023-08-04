@@ -1,7 +1,5 @@
 module Clap
 
-# WIP
-
 struct Args
   items::Vector{String}
   cursor::Ref{Int}
@@ -57,6 +55,42 @@ function is_long(self::ParsedArg)
   startswith(self.inner, "--") && !isescape(self)
 end
 
+function to_short(self::ParsedArg)
+  remainder = lstrip(self.inner, "-")
+  startswith(remainder, "-") && return nothing
+  isempty(remainder) && return nothing
+  ShortFlags(remainder)
+end
+
+function is_short(self::ParsedArg)
+  startswith(self.inner, "-") && !isstdio(self) && !startswith(self.inner, "--")
+end
+
 value(self::ParsedArg) = self.inner
+
+struct ShortFlags
+  inner::String
+end
+
+function advance_by!(self::ShortFlags, n::Int)
+  for i in 1:n
+    next_flag!(self) === nothing && return i - 1
+  end
+  return nothing
+end
+
+function is_empty(self::ShortFlags)
+  isempty(self.inner)
+end
+
+function is_number(self::ShortFlags)
+  isnumeric(self.inner)
+end
+
+function next_flag!(self::ShortFlags)
+  flag, remaining = split(self.inner, ""; limit = 2)
+  self.inner = remaining
+  isempty(flag) ? nothing : flag[1]
+end
 
 end
