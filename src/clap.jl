@@ -101,4 +101,133 @@ using InlineTest
   raw = Args(["bin", "a", "b", "c"])
 end
 
+@testset "to_long_stdio" begin
+  args = Args(["bin", "-"])
+  next!(args)
+  next_arg = next!(args)
+  @test !is_long(next_arg)
+  @test to_long(next_arg) === nothing
+end
+
+@testset "to_long_no_escape" begin
+  args = Args(["bin", "--"])
+  next!(args)
+  next_arg = next!(args)
+  @test !is_long(next_arg)
+  @test to_long(next_arg) === nothing
+end
+
+@testset "to_long_no_value" begin
+  args = Args(["bin", "--long"])
+  next!(args)
+  next_arg = next!(args)
+  @test is_long(next_arg)
+  key, value = to_long(next_arg)
+  @test key == "long"
+  @test value === nothing
+end
+
+@testset "to_long_with_empty_value" begin
+  args = Args(["bin", "--long="])
+  next!(args)
+  next_arg = next!(args)
+  @test is_long(next_arg)
+  key, value = to_long(next_arg)
+  @test key == "long"
+  @test value == ""
+end
+
+@testset "to_long_with_value" begin
+  args = Args(["bin", "--long=hello"])
+  next!(args)
+  next_arg = next!(args)
+  @test is_long(next_arg)
+  key, value = to_long(next_arg)
+  @test key == "long"
+  @test value == "hello"
+end
+
+@testset "to_short_stdio" begin
+  args = Args(["bin", "-"])
+  next!(args)
+  next_arg = next!(args)
+  @test !is_short(next_arg)
+  @test to_short(next_arg) === nothing
+end
+
+@testset "to_short_escape" begin
+  args = Args(["bin", "--"])
+  next!(args)
+  next_arg = next!(args)
+  @test !is_short(next_arg)
+  @test to_short(next_arg) === nothing
+end
+
+@testset "to_short_long" begin
+  args = Args(["bin", "--long"])
+  next!(args)
+  next_arg = next!(args)
+  @test !is_short(next_arg)
+  @test to_short(next_arg) === nothing
+end
+
+@testset "to_short" begin
+  args = Args(["bin", "-short"])
+  next!(args)
+  next_arg = next!(args)
+  @test is_short(next_arg)
+  shorts = to_short(next_arg)
+  actual = join(shorts.inner)
+  @test actual == "short"
+end
+
+@testset "is_negative_number" begin
+  args = Args(["bin", "-10.0"])
+  next!(args)
+  next_arg = next!(args)
+  @test isnumeric(next_arg.inner)
+end
+
+@testset "is_positive_number" begin
+  args = Args(["bin", "10.0"])
+  next!(args)
+  next_arg = next!(args)
+  @test isnumeric(next_arg.inner)
+end
+
+@testset "is_not_number" begin
+  args = Args(["bin", "--10.0"])
+  next!(args)
+  next_arg = next!(args)
+  @test !isnumeric(next_arg.inner)
+end
+
+@testset "is_stdio" begin
+  args = Args(["bin", "-"])
+  next!(args)
+  next_arg = next!(args)
+  @test isstdio(next_arg)
+end
+
+@testset "is_not_stdio" begin
+  args = Args(["bin", "--"])
+  next!(args)
+  next_arg = next!(args)
+  @test !isstdio(next_arg)
+end
+
+@testset "is_escape" begin
+  args = Args(["bin", "--"])
+  next!(args)
+  next_arg = next!(args)
+  @test isescape(next_arg)
+end
+
+@testset "is_not_escape" begin
+  args = Args(["bin", "-"])
+  next!(args)
+  next_arg = next!(args)
+  @test !isescape(next_arg)
+end
+
 end
