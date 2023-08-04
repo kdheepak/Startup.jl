@@ -119,6 +119,7 @@ function replinit(repl)
     using Revise
     using BenchmarkTools
     using Infiltrator
+    # import TerminalUserInterfaces as TUI
   end
 end
 
