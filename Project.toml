@@ -23,6 +23,7 @@ Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 SnoopPrecompile = "66db9d55-30c0-4569-8b51-7e840670fc0c"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 Suppressor = "fd094767-a336-5f1f-9728-57cf17d0bbfb"
+TerminalUserInterfaces = "408767e4-586b-40c7-9657-f9758988469a"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
