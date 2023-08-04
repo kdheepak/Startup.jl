@@ -132,3 +132,10 @@ function ohmyreplinit(repl)
   end
 end
 
+function gitdir(currdir)
+  while true
+    dirname(currdir) == currdir && return nothing
+    isdir(joinpath(currdir, ".git")) && return currdir
+    currdir = dirname(currdir)
+  end
+end
