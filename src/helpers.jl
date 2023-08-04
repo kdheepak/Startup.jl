@@ -162,6 +162,7 @@ end
 
 @static if Sys.iswindows()
   function restart_julia(argv)
+    @info "Current Julia session paused. Spawning new Julia session..."
     run(Cmd(argv))
     exit()
   end
