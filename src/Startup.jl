@@ -11,8 +11,7 @@ include("macros.jl")
 include("helpers.jl")
 include("pkg.jl")
 include("clap.jl")
-
-using .PkgStack
+include("envs.jl")
 
 function __init__()
   atreplinit() do repl
@@ -25,7 +24,7 @@ end
 @setup_workload begin
   function _activate()
     cd(dirname(dirname(pathof(Startup))))
-    Pkg.activate(".", io=Base.devnull)
+    Pkg.activate("."; io = Base.devnull)
     __init__()
   end
   @compile_workload begin
