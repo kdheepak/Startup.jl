@@ -11,12 +11,12 @@ function template()
   @eval Main begin
     using PkgTemplates
     Template(;
-      user="kdheepak",
-      dir="~/gitrepos/",
-      authors="Dheepak Krishnamurthy",
-      julia=v"1.10",
-      plugins=[
-        Git(; manifest=true),
+      user = "kdheepak",
+      dir = "~/gitrepos/",
+      authors = "Dheepak Krishnamurthy",
+      julia = v"1.10",
+      plugins = [
+        Git(; manifest = true),
         GitHubActions(),
         # Codecov(),
         Documenter{GitHubActions}(),
@@ -24,37 +24,42 @@ function template()
         # RegisterAction(),
         # BlueStyleBadge(),
         # ColPracBadge(),
-      ]
+      ],
     )
   end
 end
 
 function repl_ast_transforms(repl)
-  if Base.isinteractive() &&
-     (local REPL = get(Base.loaded_modules, Base.PkgId(Base.UUID("3fa0cd96-eef1-5676-8a61-b3b8758bbffb"), "REPL"), nothing); REPL !== nothing)
+  if Base.isinteractive() && (
+    local REPL =
+      get(Base.loaded_modules, Base.PkgId(Base.UUID("3fa0cd96-eef1-5676-8a61-b3b8758bbffb"), "REPL"), nothing);
+    REPL !== nothing
+  )
 
     # Exit Julia with :q, restart with :r
-    pushfirst!(REPL.repl_ast_transforms, function (ast::Union{Expr,Nothing})
-      function toplevel_quotenode(ast, s)
-        return (Meta.isexpr(ast, :toplevel, 2) && ast.args[2] === QuoteNode(s)) ||
-               (Meta.isexpr(ast, :toplevel) && any(x -> toplevel_quotenode(x, s), ast.args))
-      end
-      if toplevel_quotenode(ast, :q)
-        exit()
-      elseif toplevel_quotenode(ast, :r)
-        argv = Base.julia_cmd().exec
-        opts = Base.JLOptions()
-        if opts.project != C_NULL
-          push!(argv, "--project=$(unsafe_string(opts.project))")
+    pushfirst!(
+      REPL.repl_ast_transforms,
+      function (ast::Union{Expr,Nothing})
+        function toplevel_quotenode(ast, s)
+          return (Meta.isexpr(ast, :toplevel, 2) && ast.args[2] === QuoteNode(s)) ||
+                 (Meta.isexpr(ast, :toplevel) && any(x -> toplevel_quotenode(x, s), ast.args))
         end
-        if opts.nthreads != 0
-          push!(argv, "--threads=$(opts.nthreads)")
+        if toplevel_quotenode(ast, :q)
+          exit()
+        elseif toplevel_quotenode(ast, :r)
+          argv = Base.julia_cmd().exec
+          opts = Base.JLOptions()
+          if opts.project != C_NULL
+            push!(argv, "--project=$(unsafe_string(opts.project))")
+          end
+          if opts.nthreads != 0
+            push!(argv, "--threads=$(opts.nthreads)")
+          end
+          restart_julia(argv)
         end
-        # @ccall execv(argv[1]::Cstring, argv::Ref{Cstring})::Cint
-        ccall(:execv, Cint, (Cstring, Ref{Cstring}), argv[1], argv)
-      end
-      return ast
-    end)
+        return ast
+      end,
+    )
 
     # Automatically load tooling on demand:
     local tooling_dict = Dict{Symbol,Vector{Symbol}}(
@@ -66,12 +71,22 @@ function repl_ast_transforms(repl)
       :ProfileView => Symbol.(["@profview"]),
       # everything else:
       :Dictionaries => Symbol.(["Dictionary", "dictionary"]),
-      :LinearAlgebra => Symbol.(["dot", "norm", "normalize", "Symmetric", "Diagonal", "eigen", "eigvals", "eigvecs",]),
+      :LinearAlgebra => Symbol.(["dot", "norm", "normalize", "Symmetric", "Diagonal", "eigen", "eigvals", "eigvecs"]),
       :StaticArrays => Symbol.(["SVector", "@SVector"]),
       :Statistics => Symbol.(["mean", "median", "std", "cor", "cov", "quantile"]),
-      :ReTest => Symbol.([
-        "retest", "@test", "@testset", "@test_broken", "@test_deprecated", "@test_logs", "@test_nowarn", "@test_skip", "@test_throws", "@test_warn",
-      ]),
+      :ReTest =>
+        Symbol.([
+          "retest",
+          "@test",
+          "@testset",
+          "@test_broken",
+          "@test_deprecated",
+          "@test_logs",
+          "@test_nowarn",
+          "@test_skip",
+          "@test_throws",
+          "@test_warn",
+        ]),
       # :Accessors => Symbol.(["@optic", "@set", "@modify"]),
       # :DataManipulation => Symbol.(["flatmap", "filtermap", "mapview", "group", "groupview", "groupmap", "findonly", "filteronly", "filterfirst", "uniqueonly"]),
       # :DataPipes => Symbol.(["@p"]),
@@ -81,8 +96,8 @@ function repl_ast_transforms(repl)
       # :StructArrays => Symbol.(["StructArray"]),
     )
     pushfirst!(REPL.repl_ast_transforms, function (ast::Union{Expr,Nothing})
-      contains_calls(ast, ms::Vector{Symbol}, res=Symbol[]) = res
-      function contains_calls(ast::Expr, ms::Vector{Symbol}, res=Symbol[])
+      contains_calls(ast, ms::Vector{Symbol}, res = Symbol[]) = res
+      function contains_calls(ast::Expr, ms::Vector{Symbol}, res = Symbol[])
         if Meta.isexpr(ast, [:macrocall, :call]) && first(ast.args) ∈ ms
           push!(res, first(ast.args))
         end
@@ -142,5 +157,17 @@ function gitdir(currdir)
     dirname(currdir) == currdir && return nothing
     isdir(joinpath(currdir, ".git")) && return currdir
     currdir = dirname(currdir)
+  end
+end
+
+@static if Sys.iswindows()
+  function restart_julia(argv)
+    run(Cmd(argv))
+    exit()
+  end
+else
+  function restart_julia(argv)
+    # @ccall execv(argv[1]::Cstring, argv::Ref{Cstring})::Cint
+    ccall(:execv, Cint, (Cstring, Ref{Cstring}), argv[1], argv)
   end
 end
