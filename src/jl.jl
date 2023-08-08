@@ -15,11 +15,6 @@ end
   Pkg.rm(package)
 end
 
-@cast function build(project = ".")
-  Pkg.activate(project)
-  Pkg.build()
-end
-
 @cast function compat(project = ".")
   Pkg.activate(project)
   PackageCompatUI.compat_ui()
@@ -28,6 +23,16 @@ end
 @cast function instantiate(project = ".")
   Pkg.activate(project)
   Pkg.instantiate()
+end
+
+@cast function build(project = ".")
+  Pkg.activate(project)
+  Pkg.build()
+end
+
+@cast function startup_build(project = "~/gitrepos/Startup.jl")
+  Pkg.activate(project)
+  Pkg.build()
 end
 
 @cast function new(name)
