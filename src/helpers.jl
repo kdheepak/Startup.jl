@@ -16,7 +16,7 @@ function template()
       authors = "Dheepak Krishnamurthy",
       julia = v"1.10",
       plugins = [
-        Git(; manifest = true),
+        Git(; ssh = true, manifest = true),
         GitHubActions(),
         # Codecov(),
         Documenter{GitHubActions}(),
