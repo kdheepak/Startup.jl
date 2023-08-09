@@ -49,6 +49,11 @@ end
   LiveServer.serve(; dir, launch_browser = true)
 end
 
+@cast function servedocs(project = "./docs")
+  Pkg.activate(project)
+  LiveServer.servedocs(; launch_browser = true)
+end
+
 @main
 
 end
