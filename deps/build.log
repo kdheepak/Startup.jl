@@ -5,9 +5,6 @@
     Updating `~/.julia/scratchspaces/047500d8-b0e7-490c-83b9-9904e4003dce/env/Manifest.toml`
   [047500d8] + Startup v1.0.0-DEV `~/gitrepos/Startup.jl`
     Updating registry at `~/.julia/registries/General.toml`
-    Updating `~/.julia/scratchspaces/047500d8-b0e7-490c-83b9-9904e4003dce/env/Project.toml`
-  [14b8a8f1] ↑ PkgTemplates v0.7.38 ⇒ v0.7.39
-    Updating `~/.julia/scratchspaces/047500d8-b0e7-490c-83b9-9904e4003dce/env/Manifest.toml`
-  [14b8a8f1] ↑ PkgTemplates v0.7.38 ⇒ v0.7.39
-  [5c2747f8] ↑ URIs v1.4.2 ⇒ v1.5.0
+  No Changes to `~/.julia/scratchspaces/047500d8-b0e7-490c-83b9-9904e4003dce/env/Project.toml`
+  No Changes to `~/.julia/scratchspaces/047500d8-b0e7-490c-83b9-9904e4003dce/env/Manifest.toml`
   Activating project at `~/gitrepos/Startup.jl`

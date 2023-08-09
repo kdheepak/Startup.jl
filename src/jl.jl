@@ -3,6 +3,7 @@ module Cli
 using Comonicon
 using Pkg
 using PackageCompatUI
+using LiveServer
 using ..Startup
 
 @cast function add(package, project = ".")
@@ -25,6 +26,11 @@ end
   Pkg.instantiate()
 end
 
+@cast function test(project = ".")
+  Pkg.activate(project)
+  Pkg.test()
+end
+
 @cast function build(project = ".")
   Pkg.activate(project)
   Pkg.build()
@@ -35,8 +41,12 @@ end
   Pkg.build()
 end
 
-@cast function new(name)
+@cast function template(name)
   Startup.template()(name)
+end
+
+@cast function serve(dir = ".")
+  LiveServer.serve(; dir, launch_browser = true)
 end
 
 @main

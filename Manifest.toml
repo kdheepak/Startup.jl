@@ -2,7 +2,7 @@
 
 julia_version = "1.10.0-beta1"
 manifest_format = "2.0"
-project_hash = "b5ef68ffa4390726f6a3ca2d8785e68432756e25"
+project_hash = "14b16340760c1aee4d8c49f90ee1fa3d5562989a"
 
 [[deps.AbstractTrees]]
 git-tree-sha1 = "faa260e4cb5aba097a73fab382dd4b5819d8ec8c"
@@ -300,6 +300,12 @@ version = "1.16.1+2"
 deps = ["Libdl", "OpenBLAS_jll", "libblastrampoline_jll"]
 uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
+[[deps.LiveServer]]
+deps = ["HTTP", "LoggingExtras", "MIMEs", "Pkg", "Sockets", "Test"]
+git-tree-sha1 = "24d05efe53436b22a42bf2ae459f47c48b0c2603"
+uuid = "16fef848-5104-11e9-1b77-fb7a48bbb589"
+version = "1.2.7"
+
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
@@ -314,6 +320,11 @@ deps = ["JuliaInterpreter"]
 git-tree-sha1 = "60168780555f3e663c536500aa790b6368adc02a"
 uuid = "6f1432cf-f94c-5a45-995e-cdbf5db27b0b"
 version = "2.3.0"
+
+[[deps.MIMEs]]
+git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
+uuid = "6c6e2e6c-3030-632d-7369-2d6c69616d65"
+version = "0.1.4"
 
 [[deps.MacroTools]]
 deps = ["Markdown", "Random"]
@@ -434,9 +445,9 @@ version = "1.10.0"
 
 [[deps.PkgTemplates]]
 deps = ["Dates", "InteractiveUtils", "LibGit2", "Mocking", "Mustache", "Parameters", "Pkg", "REPL", "UUIDs"]
-git-tree-sha1 = "8cd6b2e37d6fa76dff55d8832be2f3ca3b73ae56"
+git-tree-sha1 = "82186fe066cbdc3a25ed9247ea709da73c52e941"
 uuid = "14b8a8f1-9102-5b29-a752-f990bacb7fe1"
-version = "0.7.38"
+version = "0.7.40"
 
 [[deps.PooledArrays]]
 deps = ["DataAPI", "Future"]
@@ -622,9 +633,9 @@ uuid = "d265eb64-f81a-44ad-a842-4247ee1503de"
 version = "1.2.1"
 
 [[deps.URIs]]
-git-tree-sha1 = "074f993b0ca030848b897beff716d93aca60f06a"
+git-tree-sha1 = "b7a5e99f24892b6824a954199a45e9ffcc1c70f0"
 uuid = "5c2747f8-b7ea-4ff2-ba2e-563bfd36b1d4"
-version = "1.4.2"
+version = "1.5.0"
 
 [[deps.UUIDs]]
 deps = ["Random", "SHA"]
