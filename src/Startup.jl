@@ -38,4 +38,6 @@ end
   end
 end
 
+export @autoinfiltrate, @subprocess
+
 end
