@@ -6,6 +6,7 @@ using Dates
 using PkgTemplates
 using ArgParse
 using MacroTools
+using ReTest
 
 include("macros.jl")
 include("helpers.jl")
@@ -34,6 +35,8 @@ end
     using OhMyREPL.JLFzf: fzf_jll
     using OhMyREPL.BracketInserter.Pkg.API.Operations.Registry: FileWatching
     using JuliaSyntax: JuliaSyntax
+    using Infiltrator
+    using BenchmarkTools
     push!(Revise.dont_watch_pkgs, :Startup)
   end
 end
