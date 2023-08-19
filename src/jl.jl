@@ -6,6 +6,11 @@ using PackageCompatUI
 using LiveServer
 using ..Startup
 
+@cast function execute(cmd, project = ".")
+  Pkg.activate(project)
+  eval(Base.Meta.parse(cmd))
+end
+
 @cast function add(package, project = ".")
   Pkg.activate(project)
   Pkg.add(package)
