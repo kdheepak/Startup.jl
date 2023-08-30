@@ -12,7 +12,7 @@ function template()
     using PkgTemplates
     Template(;
       user = "kdheepak",
-      dir = "~/gitrepos/",
+      dir = abspath(joinpath(homedir(), "gitrepos")),
       authors = "Dheepak Krishnamurthy",
       julia = v"1.10",
       plugins = [
