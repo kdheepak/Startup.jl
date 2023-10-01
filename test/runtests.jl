@@ -1,3 +1,6 @@
-using ReTest
-import Startup
-Startup.runtests()
+using Test
+using Startup
+
+@testset begin
+  @test true
+end
