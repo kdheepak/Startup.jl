@@ -1,23 +1,15 @@
 module Startup
 
-using Pkg
 using PrecompileTools
-using Dates
-using PkgTemplates
-using ArgParse
-using MacroTools
-using ReTest
 
 include("macros.jl")
 include("helpers.jl")
 include("pkg.jl")
 include("envs.jl")
-include("jl.jl")
+# include("jl.jl")
 
 function __init__()
   atreplinit() do repl
-    replinit(repl)
-    ohmyreplinit(repl)
     repl_ast_transforms(repl)
   end
 end
@@ -31,12 +23,26 @@ end
   @compile_workload begin
     using Pkg: Pkg as Pkg
     using Revise
+    using Infiltrator
+    using ArgParse
+    using BenchmarkTools
+    using Crayons
+    using Cthulhu
+    using Dates
+    using Infiltrator
+    using InteractiveUtils
+    using JuliaSyntax: JuliaSyntax
+    using LinearAlgebra
+    using OhMyREPL
+    using Pkg
     using OhMyREPL: JLFzf
     using OhMyREPL.JLFzf: fzf_jll
     using OhMyREPL.BracketInserter.Pkg.API.Operations.Registry: FileWatching
-    using JuliaSyntax: JuliaSyntax
-    using Infiltrator
-    using BenchmarkTools
+    using OhMyREPL
+    OhMyREPL.enable_pass!("RainbowBrackets", false)
+    OhMyREPL.enable_autocomplete_brackets(false)
+    OhMyREPL.colorscheme!("OneDark")
+
     push!(Revise.dont_watch_pkgs, :Startup)
   end
 end

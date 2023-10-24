@@ -129,29 +129,6 @@ function repl_ast_transforms(repl)
   end
 end
 
-function replinit(repl)
-  @eval Main begin
-    using Revise
-    using Infiltrator
-    # import TerminalUserInterfaces as TUI
-    # push!(Revise.dont_watch_pkgs, :Startup)
-    # import REPL
-    # REPL.GlobalOptions.auto_indent = false
-    # REPL.LineEdit.options(s::REPL.LineEdit.PromptState) = REPL.GlobalOptions
-  end
-end
-
-function ohmyreplinit(repl)
-  @eval Main begin
-    using OhMyREPL
-    @async begin
-      OhMyREPL.enable_pass!("RainbowBrackets", false)
-      OhMyREPL.enable_autocomplete_brackets(false)
-    end
-    @eval Main.colorscheme!("OneDark")
-  end
-end
-
 function gitdir(currdir)
   while true
     dirname(currdir) == currdir && return nothing
