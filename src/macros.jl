@@ -23,19 +23,6 @@ macro subprocess(ex, wait = true)
   end
 end
 
-# Silent @show version (omit the right-hand side)
-# https://github.com/mroavi/dotfiles/blob/2d1f6d05515153b3616f5384faf85e2d406a6e26/julia/.julia/config/startup.jl#L147
-macro sshow(exs...)
-  blk = Expr(:block)
-  for ex in exs
-    push!(blk.args, :(println(repr(begin
-      local value = $(esc(ex))
-    end))))
-  end
-  isempty(exs) || push!(blk.args, :value)
-  return blk
-end
-
 macro autoinfiltrate(cond = true)
   pkgid = Base.PkgId(Base.UUID("5903a43b-9cc3-4c30-8d17-598619ec4e9b"), "Infiltrator")
   if !haskey(Base.loaded_modules, pkgid)
@@ -86,5 +73,4 @@ export @cn,
   @descend_code_typed,
   @descend_code_warntype,
   @autoinfiltrate,
-  @subprocess,
-  @sshow
+  @subprocess
